@@ -10,7 +10,7 @@ class Student:
         self.subjects = subjects
 
     def __str__(self):
-        return f"{self.id} | {self.email} | {self.password} | {self.name} | {self.subjects}"
+        return f"{self.id} | {self.email} | {self.password} | {self.name} | {[str(sub) for sub in self.subjects]}"
 
     def set_id(self):
         id = f"{random.randint(0, 999999):06}"

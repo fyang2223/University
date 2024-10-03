@@ -1,3 +1,4 @@
+from enrolment_system import EnrolmentSystem
 from student import Student
 from database import Database
 
@@ -30,10 +31,14 @@ class StudentSystem:
             self.logged_in = True
             print(f"Student is: {student}")
         elif action == "x":
-            pass
+            exit()
         else:
             print("Invalid selection.")
             exit()
+
+        if self.logged_in:
+            enrolment_system = EnrolmentSystem(student=student)
+            enrolment_system.run_menu()
 
 
 if __name__ == '__main__':

@@ -17,6 +17,7 @@ class UniversitySystem:
                 print("Unrecognised")
                 exit(-1)
 
+
 if __name__ == '__main__':
     main = UniversitySystem()
     main.run_menu()

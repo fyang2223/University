@@ -11,9 +11,9 @@ class StudentSystem:
         action = input("Student System (l/r/x)")
         if action == "l":
             database = Database()
-            login_email = input("Login Email:")
-            login_password = input("Login Password:")
-            record = database.get_record(login_email=login_email, login_password=login_password)
+            email = input("Login Email:")
+            password = input("Login Password:")
+            record = database.get_record(email=email, password=password)
             student = Student(
                 id=record["id"],
                 email=record["email"],
@@ -30,6 +30,8 @@ class StudentSystem:
             student.set_name()
             self.logged_in = True
             print(f"Student is: {student}")
+            database = Database()
+            database.insert(student=student)
         elif action == "x":
             exit()
         else:
@@ -39,8 +41,3 @@ class StudentSystem:
         if self.logged_in:
             enrolment_system = EnrolmentSystem(student=student)
             enrolment_system.run_menu()
-
-
-if __name__ == '__main__':
-    menu = StudentSystem()
-    menu.run_menu()

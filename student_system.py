@@ -7,7 +7,7 @@ class StudentSystem:
     def __init__(self):
         self.logged_in = False
 
-    def selection(self):
+    def run_menu(self):
         action = input("Student System (l/r/x)")
         if action == "l":
             database = Database()
@@ -43,4 +43,4 @@ class StudentSystem:
 
 if __name__ == '__main__':
     menu = StudentSystem()
-    menu.selection()
+    menu.run_menu()

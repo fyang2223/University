@@ -10,13 +10,7 @@ class Database:
         """
         Insert a student into the 'students.data' file.
         """
-        try:
-            existing_students_df = pd.read_csv("students.data")
-        except FileNotFoundError as e:
-            print("Could not find existing students.data file. Creating new file...")
-            existing_students_df = pd.DataFrame(
-                columns=["id", "email", "password", "name", "subjects"]
-            )
+        existing_students_df = self.get_df()
         new_student_df = pd.DataFrame(
             data={
                 "id": [student.id],
@@ -29,7 +23,15 @@ class Database:
         new_df = pd.concat([existing_students_df, new_student_df], ignore_index=True)
         new_df.to_csv("students.data", index=False)
 
-    def get_record(self, email, password):
+    def get_df(self) -> pd.DataFrame:
+        try:
+            df = pd.read_csv("students.data")
+        except FileNotFoundError as e:
+            print("Could not find existing students.data file to load dataframe. Creating new Dataframe...")
+            df = pd.DataFrame(
+                columns=["id", "email", "password", "name", "subjects"]
+            )
+
         data = {
             "id": "123456",
             "email": "testing",
@@ -37,7 +39,7 @@ class Database:
             "name": "testing",
             "subjects": "testing",
         }
-        return data
+        return df
 
 
 if __name__ == '__main__':

@@ -7,20 +7,30 @@ class StudentSystem:
     def __init__(self):
         self.logged_in = False
 
+    def login(self, email: str, password: str) -> Student:
+        database = Database()
+        df = database.get_df()
+        record = df[(df["email"] == email) & (df["password"] == password)]
+        if record.empty:
+            print("Student not found")
+            email = input("Login Email:")
+            password = input("Login Password:")
+            return self.login(email=email, password=password)
+        student = Student(
+            id=record["id"],
+            email=record["email"],
+            password=record["password"],
+            name=record["name"],
+            subjects=record["subjects"],
+        )
+        return student
+
     def run_menu(self):
         action = input("Student System (l/r/x)")
         if action == "l":
-            database = Database()
             email = input("Login Email:")
             password = input("Login Password:")
-            record = database.get_record(email=email, password=password)
-            student = Student(
-                id=record["id"],
-                email=record["email"],
-                password=record["password"],
-                name=record["name"],
-                subjects=record["subjects"],
-            )
+            student = self.login(email=email, password=password)
             self.logged_in = True
             print(f"Student is: {student}")
         elif action == "r":

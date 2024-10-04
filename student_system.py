@@ -17,11 +17,11 @@ class StudentSystem:
             password = input("Login Password:")
             return self.login(email=email, password=password)
         student = Student(
-            id=record["id"],
-            email=record["email"],
-            password=record["password"],
-            name=record["name"],
-            subjects=record["subjects"],
+            id=record.iloc[0]["id"],
+            email=record.iloc[0]["email"],
+            password=record.iloc[0]["password"],
+            name=record.iloc[0]["name"],
+            subjects=record.iloc[0]["subjects"],
         )
         return student
 

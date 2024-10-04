@@ -1,3 +1,5 @@
+import pandas as pd
+from database import Database
 from student import Student
 from subject import Subject
 
@@ -28,6 +30,8 @@ class EnrolmentSystem:
     def enrol_subject(self):
         subject = Subject()
         self.student.subjects.append(subject)
+        database = Database()
+        database.insert(self.student)
 
     def show_subjects(self):
         for subject in self.student.subjects:

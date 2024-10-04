@@ -2,13 +2,13 @@ import random
 
 
 class Subject:
-    def __init__(self):
-        self.id = random.randint(0, 999)
-        self.mark = random.randint(25, 100)
-        self.grade = self.calculate_grade(mark=self.mark)
+    def __init__(self, id=None, mark=None, grade=None):
+        self.id = id or random.randint(0, 999)
+        self.mark = mark or random.randint(25, 100)
+        self.grade = grade or self.calculate_grade(mark=self.mark)
 
     def __str__(self):
-        return f"{self.id} | {self.mark} | {self.grade}"
+        return f"{self.id}|{self.mark}|{self.grade}"
 
     def calculate_grade(self, mark: int):
         if mark < 50:

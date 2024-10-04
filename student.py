@@ -1,5 +1,7 @@
 import random
 
+import pandas as pd
+
 
 class Student:
     def __init__(self, id=None, email=None, password=None, name=None, subjects=None):
@@ -7,7 +9,7 @@ class Student:
         self.email = email
         self.password = password
         self.name = name
-        self.subjects = subjects
+        self.subjects = subjects if subjects else []
 
     def __str__(self):
         return f"{self.id} | {self.email} | {self.password} | {self.name} | {[str(sub) for sub in self.subjects]}"
@@ -28,4 +30,3 @@ class Student:
         name = input("Name:")
         self.name = name
         print("Name accepted.")
-        self.subjects = []

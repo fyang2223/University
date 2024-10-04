@@ -8,7 +8,7 @@ class Subject:
         self.grade = grade or self.calculate_grade(mark=self.mark)
 
     def __str__(self):
-        return f"{self.id}|{self.mark}|{self.grade}"
+        return f'"{self.id}|{self.mark}|{self.grade}"'
 
     def calculate_grade(self, mark: int):
         if mark < 50:

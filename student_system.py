@@ -1,3 +1,5 @@
+from typing import Optional
+
 from enrolment_system import EnrolmentSystem
 from student import Student
 from database import Database
@@ -5,49 +7,60 @@ from database import Database
 
 class StudentSystem:
     def __init__(self):
-        self.logged_in = False
+        self.database = Database()
 
-    def login(self, email: str, password: str) -> Student:
-        database = Database()
-        df = database.get_df()
-        record = df[(df["email"] == email) & (df["password"] == password)]
-        if record.empty:
-            print("Student not found")
-            email = input("Login Email:")
-            password = input("Login Password:")
-            return self.login(email=email, password=password)
-        student = Student(
-            id=record.iloc[0]["id"],
-            email=record.iloc[0]["email"],
-            password=record.iloc[0]["password"],
-            name=record.iloc[0]["name"],
-            subjects=record.iloc[0]["subjects"],
-        )
-        return student
+    def check_email_password_format(self, email: str, password: str):
+        if len(email) > 1 and len(password) > 1:
+            return True
+        return False
+
+    def run_login(self) -> Student:
+        email = input("Login Email:")
+        password = input("Login Password:")
+        student = self.database.get_student(email=email, password=password)
+        if self.check_email_password_format(email=email, password=password):
+            if student:
+                student = self.database.get_student(email=email, password=password)
+                print(f"Logged in with student: {student}")
+                return student
+        print("Incorrect email or password format")
+        self.run_login()
+
+    def run_registration(self) -> Optional[Student]:
+        student = Student()
+        student.set_id()
+        email = input("Email: ")
+        password = input("Password: ")
+        if self.check_email_password_format(email=email, password=password):
+            existing_student = self.database.get_student(email=email, password=password)
+            if existing_student:
+                print(f"Student {existing_student.name} already exists")
+                return None
+            student.email = email
+            student.password = password
+            name = input("Name:")
+            student.name = name
+            print(f"Enrolling Student {name}")
+            self.database.insert(student=student)
+            return student
+        print("Incorrect email or password format")
+        self.run_registration()
+
+    def run_enrolment(self, student: Student):
+        enrolment_system = EnrolmentSystem(student=student)
+        enrolment_system.run_menu()
 
     def run_menu(self):
-        action = input("Student System (l/r/x)")
-        if action == "l":
-            email = input("Login Email:")
-            password = input("Login Password:")
-            student = self.login(email=email, password=password)
-            self.logged_in = True
-            print(f"Student is: {student}")
-        elif action == "r":
-            student = Student()
-            student.set_id()
-            student.set_email_password()
-            student.set_name()
-            self.logged_in = True
-            print(f"Student is: {student}")
-            database = Database()
-            database.insert(student=student)
-        elif action == "x":
-            exit()
-        else:
-            print("Invalid selection.")
-            exit()
-
-        if self.logged_in:
-            enrolment_system = EnrolmentSystem(student=student)
-            enrolment_system.run_menu()
+        while True:
+            action = input("Student System (l/r/x)")
+            if action == "l":
+                student = self.run_login()
+                self.run_enrolment(student=student)
+            elif action == "r":
+                student = self.run_registration()
+            elif action == "x":
+                print("Thank You.")
+                exit()
+            else:
+                print("Invalid selection.")
+                exit(-1)

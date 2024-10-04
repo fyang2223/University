@@ -20,6 +20,7 @@ class EnrolmentSystem:
             elif selection == "s":
                 self.show_subjects()
             elif selection == "x":
+                print("Thank You.")
                 exit()
             print(self.student)
 

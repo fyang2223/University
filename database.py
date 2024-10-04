@@ -1,18 +1,16 @@
-from typing import List, TYPE_CHECKING, Optional
-
-import pandas as pd
 import json
 import os
-if TYPE_CHECKING:
-    from student import Student
-    from subject import Subject
+import pandas as pd
+from typing import List, Optional
+from student import Student
+from subject import Subject
 
 
 class Database:
     def __init__(self):
         pass
 
-    def _parse_to_object(self, subjects_string: str) -> List['Subject']:
+    def _parse_to_object(self, subjects_string: str) -> List[Subject]:
         """
         Receive a string representation of subjects, and return a list of Subject instances.
         """
@@ -20,7 +18,7 @@ class Database:
         subject_list = [Subject(*s.split(sep="|", maxsplit=2)) for s in subjects]
         return subject_list
 
-    def _parse_to_string(self, subjects_list: List['Subject']) -> str:
+    def _parse_to_string(self, subjects_list: List[Subject]) -> str:
         """
         Receive a list of Subject instances, and format each Subject into a pipe-separated string
         of the format "<id>|<mark>|<grade>". Then join each string representation of a subject
@@ -39,7 +37,7 @@ class Database:
         new_df = pd.concat([df, new_record], ignore_index=True)
         return new_df
 
-    def insert(self, student: 'Student'):
+    def insert(self, student: Student):
         """
         Insert a student into the 'students.data' file.
         """
@@ -68,10 +66,18 @@ class Database:
             )
         return df
 
-    def get_student(self, email: str, password: str) -> Optional['Student']:
+    def get_student(self, email: str, password: str) -> Optional[Student]:
         df = self.get_df()
         record = df[(df["email"] == email) & (df["password"] == password)]
         assert len(record) <= 1, f"More than one matching student found for email and password combination for {email}"
-        return record if not record.empty else False
+        if not record.empty:
+            return Student(
+                id=record.iloc[0]["id"],
+                email=record.iloc[0]["email"],
+                password=record.iloc[0]["password"],
+                name=record.iloc[0]["name"],
+                subjects=record.iloc[0]["subjects"],
+            )
+        return None
 
 

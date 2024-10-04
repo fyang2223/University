@@ -10,6 +10,7 @@ class StudentSystem:
         self.database = Database()
 
     def check_email_password_format(self, email: str, password: str):
+        # TODO: Add email and password checking logic
         if len(email) > 1 and len(password) > 1:
             return True
         return False
@@ -17,12 +18,13 @@ class StudentSystem:
     def run_login(self) -> Student:
         email = input("Login Email:")
         password = input("Login Password:")
-        student = self.database.get_student(email=email, password=password)
         if self.check_email_password_format(email=email, password=password):
+            student = self.database.get_student(email=email, password=password)
             if student:
-                student = self.database.get_student(email=email, password=password)
-                print(f"Logged in with student: {student}")
+                print(f"Proceeding to Enrolment menu with student {student}")
                 return student
+            print("Student does not exist")
+            self.run_login()
         print("Incorrect email or password format")
         self.run_login()
 

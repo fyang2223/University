@@ -1,9 +1,5 @@
 import random
 
-import pandas as pd
-
-from database import Database
-
 
 class Student:
     def __init__(self, id=None, email=None, password=None, name=None, subjects=None):

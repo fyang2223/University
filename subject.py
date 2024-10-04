@@ -6,9 +6,14 @@ class Subject:
         self.id = id or random.randint(0, 999)
         self.mark = mark or random.randint(25, 100)
         self.grade = grade or self.calculate_grade(mark=self.mark)
+        self.enforce_types()
 
     def __str__(self):
         return f'"{self.id}|{self.mark}|{self.grade}"'
+
+    def enforce_types(self):
+        self.id = int(self.id) if self.id else self.id
+        self.mark = int(self.mark) if self.mark else self.mark
 
     def calculate_grade(self, mark: int):
         if mark < 50:

@@ -28,9 +28,9 @@ class StudentSystem:
                 print(f"Proceeding to Enrolment menu with student {student}")
                 return student
             print("Student does not exist")
-            self.run_login()
+            return self.run_login()
         print("Incorrect email or password format")
-        self.run_login()
+        return self.run_login()
 
     def run_registration(self) -> Optional[Student]:
         student = Student()

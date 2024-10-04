@@ -26,9 +26,10 @@ class EnrolmentSystem:
         self.database.insert(self.student)
 
     def remove_subject(self):
-        id = input("Remove subject by ID: ")
-        self.student.subjects = [sub for sub in self.student.subjects if sub.id != ]
-        # TODO: complete this
+        id = int(input("Remove subject by ID: "))
+        self.student.subjects = [sub for sub in self.student.subjects if sub.id != id]
+        self.database.insert(self.student)
+
     def show_subjects(self):
         for subject in self.student.subjects:
             print(f"[ Subject::{subject.id} -- mark = {subject.mark} -- grade = {subject.grade}")

@@ -15,6 +15,10 @@ class StudentSystem:
             return True
         return False
 
+    def run_enrolment(self, student: Student):
+        enrolment_system = EnrolmentSystem(student=student)
+        enrolment_system.run_menu()
+
     def run_login(self) -> Student:
         email = input("Login Email:")
         password = input("Login Password:")
@@ -47,10 +51,6 @@ class StudentSystem:
             return student
         print("Incorrect email or password format")
         self.run_registration()
-
-    def run_enrolment(self, student: Student):
-        enrolment_system = EnrolmentSystem(student=student)
-        enrolment_system.run_menu()
 
     def run_menu(self):
         while True:

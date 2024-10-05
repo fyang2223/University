@@ -1,3 +1,4 @@
+from admin_system import AdminSystem
 from student_system import StudentSystem
 
 
@@ -6,7 +7,8 @@ class UniversitySystem:
         while True:
             selection = input("University System: (A)dmin, (S)tudent, or X:")
             if selection == "A":
-                pass
+                admin_system = AdminSystem()
+                admin_system.run_menu()
             elif selection == "S":
                 student_system = StudentSystem()
                 student_system.run_menu()

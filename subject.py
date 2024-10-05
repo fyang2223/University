@@ -1,5 +1,5 @@
 import random
-
+from typing import Union
 
 class Subject:
     def __init__(self, id=None, mark=None, grade=None):
@@ -15,7 +15,8 @@ class Subject:
         self.id = int(self.id) if self.id else self.id
         self.mark = int(self.mark) if self.mark else self.mark
 
-    def calculate_grade(self, mark: int):
+    @staticmethod
+    def calculate_grade(mark: Union[int, float]):
         if mark < 50:
             return "F"
         elif 50 <= mark < 65:

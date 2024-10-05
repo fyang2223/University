@@ -61,8 +61,7 @@ class StudentSystem:
             elif action == "r":
                 student = self.run_registration()
             elif action == "x":
-                print("Thank You.")
-                exit()
+                break
             else:
                 print("Invalid selection.")
                 exit(-1)

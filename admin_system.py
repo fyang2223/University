@@ -43,7 +43,11 @@ class AdminSystem:
         self.database.rewrite_df(df=df)
 
     def list_students(self):
-        pass
+        df = self.database.get_df()
+        print("Student List")
+        df["formatted_output"] = df.apply(lambda x: f"{x['name']} :: {x['id']} --> Email: {x['email']}", axis=1)
+        for _, row in df.iterrows():
+            print(row["formatted_output"])
 
     def run_menu(self):
         while True:

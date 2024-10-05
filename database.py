@@ -55,6 +55,14 @@ class Database:
         new_df['subjects'] = new_df['subjects'].map(self._parse_to_string)
         new_df.to_csv("students.data", index=False, quotechar="'")
 
+    def rewrite_df(self, df: pd.DataFrame):
+        """
+        Write a dataframe to the 'students.data' file.
+        """
+        # TODO: Handle edge cases where dataframe is empty.
+        df['subjects'] = df['subjects'].map(self._parse_to_string)
+        df.to_csv("students.data", index=False, quotechar="'")
+
     def get_df(self) -> pd.DataFrame:
         try:
             df = pd.read_csv(f"{os.getcwd()}/students.data", dtype="object", quotechar="'")

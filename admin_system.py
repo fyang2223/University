@@ -22,10 +22,25 @@ class AdminSystem:
             print(row["formatted_output"])
 
     def partition(self):
-        pass
+        # TODO: Handle cases where a student has no enrolled subjects
+        df = self.database.get_df()
+        df["avg"] = df["subjects"].apply(lambda x: statistics.mean([sub.mark for sub in x]))
+        df["wam_grade"] = df["avg"].apply(Subject.calculate_grade)
+        df["formatted_output"] = df.apply(lambda x: f"{x['name']} :: {x['id']} --> GRADE:  {x['wam_grade']} - MARK: {x['avg']}", axis=1)
+        df_failed = df[df["avg"] < 50]
+        df_passed = df[df["avg"] >= 50]
+        print(f"FAIL --> [{', '.join(df_failed['formatted_output'])}]")
+        print(f"PASS --> [{', '.join(df_passed['formatted_output'])}]")
 
     def remove_student(self):
-        pass
+        df = self.database.get_df()
+        id_to_drop = input("Remove by ID: ")
+        i = df[df["id"] == id_to_drop].index
+        if i.empty:
+            print(f"Student {id_to_drop} does not exist")
+            return
+        df.drop(i, inplace=True)
+        self.database.rewrite_df(df=df)
 
     def list_students(self):
         pass
